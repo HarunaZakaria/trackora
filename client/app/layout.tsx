@@ -1,7 +1,7 @@
 import type { Metadata } from "next";
 import { Geist, Geist_Mono } from "next/font/google";
 import "./globals.css";
-import Navbar from "./components/Navbar";
+import AppShell from "./components/AppShell";
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -14,9 +14,9 @@ const geistMono = Geist_Mono({
 });
 
 export const metadata: Metadata = {
-  title: "stockora",
+  title: "Stockora",
   description:
-    "Business management software for smalll and medium busineess owners",
+    "Business management software for small and medium-sized businesses.",
 };
 
 export default function RootLayout({ children }: LayoutProps<"/">) {
@@ -25,15 +25,8 @@ export default function RootLayout({ children }: LayoutProps<"/">) {
       lang="en"
       className={`${geistSans.variable} ${geistMono.variable} h-full antialiased`}
     >
-      <body className="min-h-full flex flex-col">
-        <div>
-          <aside>
-            <div>
-              <Navbar />
-            </div>
-          </aside>
-          {children}
-        </div>
+      <body>
+        <AppShell>{children}</AppShell>
       </body>
     </html>
   );

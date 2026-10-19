@@ -1,9 +1,11 @@
-import React from "react";
-
 export default function Logo() {
   return (
-    <div>
-      <h1>Stockora</h1>
+    <div className="brand">
+      <div className="brand-mark">S</div>
+      <div className="brand-copy">
+        <span className="brand-name">Stockora</span>
+        <small>Business OS</small>
+      </div>
     </div>
   );
 }

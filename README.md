@@ -502,6 +502,22 @@ Confirm that:
 
 ---
 
+## Current Frontend Demo
+
+The current repository contains a Next.js frontend in `client/`; an Express API and MongoDB backend are not present yet. The frontend can be run independently with:
+
+```bash
+cd client
+npm install
+npm run dev
+```
+
+The dashboard, point of sale, inventory, purchases, suppliers, customers, expenses, reports, and settings screens use editable sample data saved in the current browser's local storage. The demo supports product and contact forms, inventory search and low-stock filters, purchase receipt and stock updates, customer and supplier balance payments, expense tracking, POS checkout with stock checks, CSV exports, and receipt printing. Use **Settings → Reset browser data** to restore the initial sample records.
+
+This is a frontend-only demo, not production persistence: browser data is not shared between users or devices, and it is not protected by authentication or server-side authorization. Do not use it as the system of record for real business or financial transactions. Connect the screens to a validated, authenticated backend before production use.
+
+---
+
 ## Environment Variables
 
 Create `server/.env.example` with the following template:
@@ -1557,7 +1573,7 @@ Until a license is selected, the project's distribution and reuse terms should b
 
 **Stockora is a small-business operating software project intended for inventory-driven retail businesses.**
 
-The modules, architecture, API endpoints, and database fields described in this README define the proposed product scope. Their presence in this document does not imply that they have already been implemented.
+The client currently provides an interactive local-data demo. The modules, architecture, API endpoints, and database fields described in this README otherwise define the proposed product scope; their presence in this document does not imply that they have been implemented.
 
 Update this README as the project evolves so that installation instructions, available features, API documentation, and deployment procedures accurately reflect the current codebase.
 
