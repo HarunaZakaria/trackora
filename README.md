@@ -504,7 +504,7 @@ Confirm that:
 
 ## Current Frontend Demo
 
-The current repository contains a Next.js frontend in `client/`; an Express API and MongoDB backend are not present yet. The frontend can be run independently with:
+The repository contains a Next.js frontend in `client/` and an Express/MongoDB API in `server/`. The frontend can still be run independently with:
 
 ```bash
 cd client
@@ -512,36 +512,48 @@ npm install
 npm run dev
 ```
 
-The dashboard, point of sale, inventory, purchases, suppliers, customers, expenses, reports, and settings screens use editable sample data saved in the current browser's local storage. The demo supports product and contact forms, inventory search and low-stock filters, purchase receipt and stock updates, customer and supplier balance payments, expense tracking, POS checkout with stock checks, CSV exports, and receipt printing. Use **Settings → Reset browser data** to restore the initial sample records.
+The dashboard, point of sale, inventory, purchases, suppliers, customers, expenses, reports, and settings screens use editable data saved in the current browser's local storage. The demo supports product and contact forms, inventory search and low-stock filters, purchase receipt and stock updates, customer and supplier balance payments, expense tracking, POS checkout with stock checks, CSV exports, and receipt printing. Use **Settings → Reset browser data** to restore the sample business records.
 
-This is a frontend-only demo, not production persistence: browser data is not shared between users or devices, and it is not protected by authentication or server-side authorization. Do not use it as the system of record for real business or financial transactions. Connect the screens to a validated, authenticated backend before production use.
+The `/signup` and `/login` pages create and access separate demo business workspaces. Each workspace uses a distinct browser-storage key, and owners can switch accounts by signing out. The `/admin` platform console preview lists the businesses registered in this browser and can suspend or reactivate their demo sign-ins. The sample-business and platform-admin preview shortcuts are intentionally available from the login page.
+
+This remains a frontend-only prototype, not production authentication or tenant security. Browser data is not shared between devices, the local admin preview is not protected, and users with access to this browser can inspect its stored data. Do not use it as the system of record for real business or financial transactions. Implement server-side identity, authorization, tenant-scoped database access, and audited platform-admin controls before production use.
+
+The server API now implements server-side registration, authentication, business memberships, tenant-scoped operations, sales, purchases, expenses, reports, and platform-admin monitoring. See [`server/README.md`](server/README.md) for setup and endpoint details. The current frontend demo has not yet been connected to these API routes.
 
 ---
 
 ## Environment Variables
 
-Create `server/.env.example` with the following template:
+Copy `server/.env.example` to `server/.env` and set values for your environment. The local replica-set database is required for transactional sales and purchase workflows:
 
 ```dotenv
 NODE_ENV=development
 PORT=5000
 
-MONGODB_URI=mongodb://127.0.0.1:27017/stockora
+MONGODB_URI=mongodb://127.0.0.1:27017/stockora?replicaSet=rs0
 
-CLIENT_URL=http://localhost:5173
+CLIENT_URL=http://localhost:3000
 
-JWT_SECRET=replace_with_a_secure_random_secret
-JWT_EXPIRES_IN=15m
+JWT_ACCESS_SECRET=replace_with_a_random_secret_at_least_32_characters
+JWT_REFRESH_SECRET=replace_with_a_different_random_secret_at_least_32_characters
+ACCESS_TOKEN_TTL=15m
+REFRESH_TOKEN_DAYS=30
 
-COOKIE_SECRET=replace_with_a_different_secure_random_secret
+SUPER_ADMIN_EMAIL=admin@example.com
+SUPER_ADMIN_PASSWORD=replace_with_a_strong_password
 
-LOG_LEVEL=debug
+LOG_LEVEL=info
+SMTP_HOST=
+SMTP_PORT=587
+SMTP_USER=
+SMTP_PASSWORD=
+EMAIL_FROM=Stockora <no-reply@example.com>
 ```
 
-If the frontend uses Vite, `client/.env.example` may contain:
+If the Next.js frontend is connected to this API, configure its public API base URL:
 
 ```dotenv
-VITE_API_BASE_URL=http://localhost:5000/api/v1
+NEXT_PUBLIC_API_BASE_URL=http://localhost:5000/api/v1
 ```
 
 ### Environment variable guidelines
